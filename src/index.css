@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0a0a1e;
+  --color-ink-deep: #06061a;
+  --color-paper: #fdfbf7;
+  --color-paper-shade: #f6f2ea;
+  --color-ink-text: #1a1a2e;
+  --color-muted: #6b6b80;
+  --color-faint: #9b9bb5;
+  --color-hairline: #e8e4dc;
+  --color-cardline: #24243e;
+  --color-amber: #f5a623;
+  --color-magenta: #e0249a;
+  --color-violet: #7b2ff7;
+  --color-cyan: #1fc8db;
+
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  /* shadcn-style semantic aliases, used by ported ui/ components */
+  --color-background: var(--color-ink);
+  --color-foreground: var(--color-paper);
+  --color-muted-foreground: var(--color-faint);
+  --color-primary: var(--color-magenta);
+  --color-primary-foreground: var(--color-paper);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.gradient-text {
+  background: linear-gradient(310deg, #f5a623, #e0249a, #7b2ff7, #1fc8db);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gradient-bar {
+  background: linear-gradient(90deg, #f5a623, #e0249a, #7b2ff7, #1fc8db);
+}
+
+.gradient-diagonal {
+  background: linear-gradient(310deg, #f5a623, #e0249a, #7b2ff7, #1fc8db);
+}
+
+::selection {
+  background: var(--color-magenta);
+  color: var(--color-paper);
+}
