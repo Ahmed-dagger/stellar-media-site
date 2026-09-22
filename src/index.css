@@ -56,3 +56,47 @@ body {
   background: var(--color-magenta);
   color: var(--color-paper);
 }
+
+/* ── Starfield — layered dot texture used across dark sections ────────── */
+.stars-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-repeat: repeat;
+  background-image:
+    radial-gradient(1.3px 1.3px at 12% 18%, rgba(253, 251, 247, 0.9), transparent 100%),
+    radial-gradient(1px 1px at 28% 64%, rgba(253, 251, 247, 0.6), transparent 100%),
+    radial-gradient(1.6px 1.6px at 47% 32%, rgba(253, 251, 247, 0.85), transparent 100%),
+    radial-gradient(1px 1px at 63% 82%, rgba(253, 251, 247, 0.55), transparent 100%),
+    radial-gradient(1.4px 1.4px at 78% 12%, rgba(253, 251, 247, 0.8), transparent 100%),
+    radial-gradient(1px 1px at 91% 55%, rgba(253, 251, 247, 0.6), transparent 100%),
+    radial-gradient(1.2px 1.2px at 8% 88%, rgba(253, 251, 247, 0.7), transparent 100%),
+    radial-gradient(1px 1px at 55% 6%, rgba(253, 251, 247, 0.5), transparent 100%);
+  background-size: 340px 340px;
+}
+
+.stars-layer--near {
+  background-size: 180px 180px;
+  opacity: 0.7;
+}
+
+.stars-layer--twinkle {
+  animation: stellar-twinkle 7s ease-in-out infinite;
+}
+
+@keyframes stellar-twinkle {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stars-layer--twinkle {
+    animation: none;
+    opacity: 0.85;
+  }
+}

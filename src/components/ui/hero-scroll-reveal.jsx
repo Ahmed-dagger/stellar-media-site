@@ -2,51 +2,42 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { MeshGradient, GodRays } from "@paper-design/shaders-react";
 import { useStartProject } from "../StartProjectModal";
+import Starfield from "./Starfield";
+import QuadStar from "./QuadStar";
+import stellarLogo from "../../assets/stellar-logo-white.png";
+import { CLIENTS } from "../../data/content";
+
+/**
+ * Astronaut-helmet-POV space banner, generated via Higgsfield. Drop the
+ * rendered file at src/assets/hero-space-banner.mp4 (and an optional poster
+ * frame at hero-space-banner.jpg) to replace this placeholder path.
+ */
+const HERO_VIDEO_SRC = "/hero-space-banner.mp4";
+const HERO_VIDEO_POSTER = "/hero-space-banner.png";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
-/**
- * Stellar Media brand tags for the kinetic reveal — one clipped badge per
- * service line, cycling the signature gradient stops (amber, magenta,
- * violet, cyan) across the ink surface.
- */
-const DEFAULT_TAGS = [
-  { text: "Social Media Management", background: "#F5A623", color: "#0A0A1E" },
-  { text: "Content Creation", background: "#E0249A", color: "#FDFBF7" },
-  { text: "Creative & Branding", background: "#7B2FF7", color: "#FDFBF7" },
-  { text: "Web Development", background: "#1FC8DB", color: "#0A0A1E" },
-  { text: "Strategy Solutions", background: "#24243E", color: "#FDFBF7" },
-  { text: "Digital Media Buying", background: "#F5A623", color: "#0A0A1E" },
-  { text: "SEO", background: "#E0249A", color: "#FDFBF7" },
-  { text: "Video Production", background: "#7B2FF7", color: "#FDFBF7" },
-];
+const clientLogos = import.meta.glob("../../assets/clients/*.png", {
+  eager: true,
+  import: "default",
+});
+
+function clientLogoSrc(file) {
+  return clientLogos[`../../assets/clients/${file}.png`];
+}
 
 export function HeroScrollReveal({
-  topText = (
-    <>
-      For the institutions shaping the region's future,
-      <br />
-      one agency answers.
-    </>
-  ),
+  topText = "Beyond the stars.",
   headingText = (
     <>
-      Beyond the stars,
+      A galaxy of institutions,
       <br />
-      one campaign at a time.
+      aligned around one mission.
     </>
   ),
-  tags = DEFAULT_TAGS,
-  subText = "Content, production, and performance, planned and produced without handovers.",
-  bottomText = (
-    <>
-      Seen. Believed.
-      <br />
-      Measured.
-    </>
-  ),
+  clients = CLIENTS,
+  subText = "From federal authorities to global brands, content, production, and performance planned and produced without handovers.",
   className = "",
 }) {
   const benefitRef = useRef(null);
@@ -54,7 +45,7 @@ export function HeroScrollReveal({
   const revealBoxRef = useRef(null);
   const badgeRef = useRef(null);
   const paraRef = useRef(null);
-  const tagRefs = useRef([]);
+  const logoRefs = useRef([]);
   const openStartProject = useStartProject();
 
   useEffect(() => {
@@ -105,17 +96,17 @@ export function HeroScrollReveal({
       });
     }
 
-    tagRefs.current.forEach((tagEl) => {
-      if (!tagEl) return;
+    logoRefs.current.forEach((logoEl) => {
+      if (!logoEl) return;
       revealTl.to(
-        tagEl,
+        logoEl,
         {
-          duration: 1,
+          duration: 0.8,
           opacity: 1,
-          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          y: 0,
           ease: "circ.out",
         },
-        ">-0.4"
+        ">-0.35"
       );
     });
 
@@ -193,31 +184,62 @@ export function HeroScrollReveal({
     >
       <div className="absolute top-0 left-0 right-0 h-[2px] gradient-bar z-20" />
 
-      {/* Section 1 — opening statement */}
+      {/* Section 1 — logo mark, opening tagline, astronaut-helmet-POV space banner */}
       <section className="w-full min-h-screen flex flex-col justify-center items-center text-center px-4 sm:px-8 py-8 relative bg-ink overflow-hidden">
-        <MeshGradient
-          className="absolute inset-0 h-full w-full"
-          colors={["#0A0A1E", "#7B2FF7", "#E0249A", "#1FC8DB", "#F5A623"]}
-          distortion={0.85}
-          swirl={0.35}
-          grainMixer={0.2}
-          grainOverlay={0.1}
-          speed={0.25}
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          src={HERO_VIDEO_SRC}
+          poster={HERO_VIDEO_POSTER}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
         />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(10,10,30,0.85)_78%)]" />
-        <span className="relative font-body text-xs tracking-[0.3em] text-magenta uppercase mb-8">
+        <Starfield />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(6,6,26,0.9)_80%)]" />
+
+        <img
+          src={stellarLogo}
+          alt="Digital Stellar Media"
+          className="relative h-16 sm:h-24 w-auto mb-8 drop-shadow-[0_0_24px_rgba(123,47,247,0.45)]"
+        />
+
+        <span className="relative flex items-center gap-2 font-body text-xs tracking-[0.3em] text-magenta uppercase mb-8">
+          <QuadStar />
           Content · Production · Performance
         </span>
-        <p className="relative font-display font-semibold text-[clamp(1.8rem,4.5vw,4.5rem)] tracking-tight leading-[1.05]">
+        <p className="relative font-display font-semibold text-[clamp(3rem,10vw,9rem)] tracking-tight leading-[1.02]">
           {topText}
         </p>
-        <span className="relative mt-10 text-xs tracking-[0.3em] text-faint uppercase">
+        <p dir="rtl" className="relative mt-6 font-display text-lg sm:text-xl gradient-text">
+          لا تقنع بما دون النجوم
+        </p>
+        <span className="relative mt-8 text-xs tracking-[0.3em] text-faint uppercase">
           Digital Stellar Media · Abu Dhabi · Est. 2018
         </span>
+
+        <div className="relative mt-10 flex flex-wrap justify-center gap-4">
+          <a
+            href="#work"
+            className="rounded-full px-7 py-3.5 text-sm font-medium text-ink bg-paper hover:opacity-90 transition-opacity"
+          >
+            See our work
+          </a>
+          <button
+            type="button"
+            onClick={openStartProject}
+            className="rounded-full px-7 py-3.5 text-sm font-medium text-paper border border-cardline hover:border-faint transition-colors"
+          >
+            Start a project
+          </button>
+        </div>
       </section>
 
-      {/* Section 2 — kinetic headline, service tags, pinned reveal */}
-      <section ref={benefitRef} className="relative w-full min-h-[140vh] md:min-h-[160vh] pb-16 md:pb-20 bg-ink">
+      {/* Section 2 — kinetic headline, partner galaxy, pinned reveal */}
+      <section ref={benefitRef} className="relative w-full min-h-[140vh] md:min-h-[160vh] pb-16 md:pb-20 bg-ink overflow-hidden">
+        <Starfield className="opacity-60" />
+
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-16 md:py-24 flex flex-col items-center text-center relative z-10">
           <div className="w-full mb-8 sm:mb-12 md:mb-14">
             <p
@@ -228,21 +250,21 @@ export function HeroScrollReveal({
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-2.5 sm:gap-4 max-w-4xl mx-auto my-4 sm:my-6 mb-8 sm:mb-14">
-            {tags.map((tag, idx) => (
+          {/* Partner constellation — logos laid out row by row */}
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-6 sm:gap-x-10 sm:gap-y-8 max-w-4xl mx-auto my-4 sm:my-6 mb-8 sm:mb-14">
+            {clients.map((client, idx) => (
               <div
-                key={tag.id || `tag-${idx}`}
+                key={client.file}
                 ref={(el) => {
-                  tagRefs.current[idx] = el;
+                  logoRefs.current[idx] = el;
                 }}
-                className="px-5 sm:px-7 py-2.5 sm:py-3.5 rounded-full text-[clamp(0.8rem,1.6vw,1.05rem)] font-medium font-display tracking-tight opacity-0 shadow-2xl will-change-[clip-path,opacity]"
-                style={{
-                  backgroundColor: tag.background,
-                  color: tag.color,
-                  clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
-                }}
+                className="opacity-0 translate-y-4 will-change-transform"
               >
-                {tag.text}
+                <img
+                  src={clientLogoSrc(client.file)}
+                  alt={client.name}
+                  className="h-6 sm:h-7 w-auto opacity-70 hover:opacity-100 transition-opacity"
+                />
               </div>
             ))}
           </div>
@@ -270,9 +292,10 @@ export function HeroScrollReveal({
                 className="absolute inset-0"
                 style={{
                   background:
-                    "radial-gradient(circle at 30% 20%, rgba(245,166,35,0.25), transparent 45%), radial-gradient(circle at 75% 30%, rgba(224,36,154,0.22), transparent 45%), radial-gradient(circle at 50% 80%, rgba(123,47,247,0.28), transparent 55%), #06061A",
+                    "radial-gradient(circle at 30% 20%, rgba(31,200,219,0.22), transparent 45%), radial-gradient(circle at 75% 30%, rgba(224,36,154,0.18), transparent 45%), radial-gradient(circle at 50% 80%, rgba(123,47,247,0.3), transparent 55%), #06061A",
                 }}
               />
+              <Starfield />
               <CosmicSkyline className="absolute bottom-0 left-0 w-full h-[55%] text-faint/50" />
 
               <div className="relative z-10 flex flex-col items-center text-center px-6">
@@ -291,45 +314,6 @@ export function HeroScrollReveal({
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Section 3 — closing line */}
-      <section className="w-full min-h-[70vh] flex flex-col justify-center items-center text-center px-4 sm:px-8 py-16 relative z-10 bg-ink overflow-hidden">
-        <GodRays
-          className="absolute inset-0 h-full w-full"
-          colorBack="#06061A"
-          colorBloom="#7B2FF7"
-          colors={["#F5A623", "#E0249A", "#7B2FF7", "#1FC8DB"]}
-          density={0.7}
-          intensity={0.6}
-          spotty={0.4}
-          midSize={0.35}
-          midIntensity={0.3}
-          bloom={0.4}
-          speed={0.4}
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(6,6,26,0.82)_75%)]" />
-        <p className="relative font-display font-semibold text-[clamp(1.8rem,4.5vw,4.5rem)] tracking-tight leading-tight">
-          {bottomText}
-        </p>
-        <p dir="rtl" className="relative mt-6 font-display text-xl sm:text-2xl gradient-text">
-          لا تقنع بما دون النجوم
-        </p>
-        <div className="relative mt-10 flex flex-wrap justify-center gap-4">
-          <a
-            href="#work"
-            className="rounded-full px-7 py-3.5 text-sm font-medium text-ink bg-paper hover:opacity-90 transition-opacity"
-          >
-            See our work
-          </a>
-          <button
-            type="button"
-            onClick={openStartProject}
-            className="rounded-full px-7 py-3.5 text-sm font-medium text-paper border border-cardline hover:border-faint transition-colors"
-          >
-            Start a project
-          </button>
         </div>
       </section>
     </div>

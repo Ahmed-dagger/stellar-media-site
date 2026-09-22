@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import Skyline from "./Skyline";
+import Starfield from "./ui/Starfield";
+import QuadStar from "./ui/QuadStar";
 import { CONTACT } from "../data/content";
 
 export default function Contact() {
@@ -9,6 +11,7 @@ export default function Contact() {
       className="relative bg-ink-deep pt-28 lg:pt-36 pb-10 overflow-hidden"
     >
       <div className="absolute top-0 left-0 right-0 h-[2px] gradient-bar" />
+      <Starfield className="opacity-60" />
       <Skyline
         className="absolute bottom-16 left-0 w-full h-[35%] text-faint/40"
         opacity={0.5}
@@ -21,7 +24,8 @@ export default function Contact() {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span className="block font-body text-xs tracking-[0.3em] uppercase text-magenta mb-6">
+          <span className="flex items-center gap-2 font-body text-xs tracking-[0.3em] uppercase text-magenta mb-6">
+            <QuadStar />
             Let's talk
           </span>
           <h2 className="font-display font-semibold text-5xl sm:text-7xl text-paper leading-[0.98] tracking-tight max-w-3xl">

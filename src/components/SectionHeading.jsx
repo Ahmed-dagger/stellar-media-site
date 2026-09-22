@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import QuadStar from "./ui/QuadStar";
 
 export default function SectionHeading({
   eyebrow,
@@ -15,7 +16,12 @@ export default function SectionHeading({
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       className={align === "center" ? "text-center mx-auto max-w-2xl" : ""}
     >
-      <span className="block font-body text-xs tracking-[0.3em] uppercase text-magenta mb-4">
+      <span
+        className={`flex items-center gap-2 font-body text-xs tracking-[0.3em] uppercase text-magenta mb-4 ${
+          align === "center" ? "justify-center" : ""
+        }`}
+      >
+        <QuadStar />
         {eyebrow}
       </span>
       <h2
